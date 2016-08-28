@@ -6,6 +6,7 @@ require_relative '../../workers/parse_sms_worker'
 describe 'Parse SMS worker' do
   before :each do
     @message = ['in 5 minutes to wash the dishes', 'at 5pm to cook dinner', 'on Monday to get ready for work'].sample
+    @timeless_message = ['take the dogs for a walk', 'to go to the store', 'to actually go to the gym'].sample
   end
 
   it 'finds a valid date within the body' do
@@ -13,9 +14,21 @@ describe 'Parse SMS worker' do
     expect(date.class).to be Time
   end
 
+  it 'sets a default time if none is specified' do
+    date = ParseSMSWorker.find_date_in_body @timeless_message
+    now = Time.now
+    expect(date.hour).to eq now.hour + 3
+  end
+
   it 'isolates the body from the reminder time' do
     removed = @message[/\b((?!(in|at|on))(.*))(?:to)/, 0]
+    removed ||= 'TIME_NOT_GIVEN_DEFAULTS_TO_THREE_HOURS'
     trimmed = ParseSMSWorker.isolate_body @message
     expect(trimmed.include?(removed)).to_not eq true
+  end
+
+  it 'returns the same body if no time is given' do
+    parsed = ParseSMSWorker.isolate_body @timeless_message
+    expect(parsed).to eq @timeless_message
   end
 end
