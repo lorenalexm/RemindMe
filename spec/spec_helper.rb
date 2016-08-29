@@ -4,6 +4,8 @@ require 'rack/test'
 require 'rspec'
 require 'sidekiq/testing'
 
+require_relative '../app'
+
 Sidekiq::Testing.fake!
 
 module TestingMixin

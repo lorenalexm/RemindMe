@@ -16,6 +16,9 @@ end
 require 'twilio-ruby'
 require 'chronic'
 
+require_relative 'workers/parse_message_worker'
+require_relative 'workers/send_message_worker'
+
 module RemindMe
   class App < Sinatra::Application
     register Sinatra::ActiveRecordExtension

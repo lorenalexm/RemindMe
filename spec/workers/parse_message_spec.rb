@@ -1,7 +1,6 @@
 require 'rspec'
 require 'chronic'
 require_relative '../spec_helper'
-require_relative '../../workers/parse_message_worker'
 
 describe 'ParseMessage worker' do
   before :each do
