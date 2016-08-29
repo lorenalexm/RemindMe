@@ -30,4 +30,10 @@ describe 'ParseMessage worker' do
     expect(parsed).to eq @timeless_message
   end
 
+  it 'enqueues the job' do
+    Sidekiq::Testing.fake! do
+      ParseMessageWorker.perform_async '+1555555555', @message
+      expect(ParseMessageWorker).to have_enqueued_job '+1555555555', @message
+    end
+  end
 end

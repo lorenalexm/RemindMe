@@ -2,6 +2,7 @@ ENV['RACK_ENV'] = 'test'
 
 require 'rack/test'
 require 'rspec'
+require 'rspec-sidekiq'
 require 'sidekiq/testing'
 
 require_relative '../app'

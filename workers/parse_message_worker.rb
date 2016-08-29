@@ -1,7 +1,10 @@
 class ParseMessageWorker
   include Sidekiq::Worker
 
-  def preform(from, body)
+  def perform(user_id, body)
+    time = ParseMessageWorker.find_date_in_body body
+    body = ParseMessageWorker.isolate_body body
+    SendMessageWorker.perform_at(time)
   end
 
   def self.find_date_in_body(body)
