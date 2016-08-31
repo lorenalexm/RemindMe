@@ -6,6 +6,7 @@ require 'rspec-sidekiq'
 require 'sidekiq/testing'
 
 require_relative '../app'
+require_relative 'mocks/messaging_service'
 
 Sidekiq::Testing.fake!
 
@@ -22,5 +23,7 @@ RSpec.configure do |config|
 
   config.before :each do
     Sidekiq::Worker.clear_all
+    stub_const('Twilio::REST::Client', MessagingService)
+    MessagingService.messages = []
   end
 end
