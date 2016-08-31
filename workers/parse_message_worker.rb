@@ -1,9 +1,10 @@
 class ParseMessageWorker
   include Sidekiq::Worker
+  sidekiq_options queue: 'parsing'
 
   def perform(user_id, body)
-    time = ParseMessageWorker.find_date_in_body body
-    body = ParseMessageWorker.isolate_body body
+    time = self.class.find_date_in_body body
+    body = self.class.isolate_body body
     SendMessageWorker.perform_at(time)
   end
 

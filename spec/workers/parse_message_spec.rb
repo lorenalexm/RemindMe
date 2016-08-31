@@ -1,5 +1,3 @@
-require 'rspec'
-require 'chronic'
 require_relative '../spec_helper'
 
 describe 'ParseMessage worker' do
@@ -34,6 +32,7 @@ describe 'ParseMessage worker' do
     Sidekiq::Testing.fake! do
       ParseMessageWorker.perform_async '+1555555555', @message
       expect(ParseMessageWorker).to have_enqueued_job '+1555555555', @message
+      expect(ParseMessageWorker).to be_processed_in :parsing
     end
   end
 end
