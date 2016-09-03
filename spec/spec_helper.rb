@@ -9,6 +9,7 @@ require_relative '../app'
 require_relative 'mocks/messaging_service'
 
 Sidekiq::Testing.fake!
+ActiveRecord::Migration.maintain_test_schema!
 
 module TestingMixin
   include Rack::Test::Methods

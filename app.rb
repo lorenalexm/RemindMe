@@ -16,6 +16,7 @@ end
 require 'twilio-ruby'
 require 'chronic'
 
+require_relative 'models/message'
 require_relative 'workers/parse_message_worker'
 require_relative 'workers/send_message_worker'
 
